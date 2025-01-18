@@ -10,6 +10,7 @@ public class TorchLight : MonoBehaviour
     void Start()
     {
         light = GetComponent<Light>();
+        light.enabled = false;
     }
 
     // Update is called once per frame
@@ -17,8 +18,24 @@ public class TorchLight : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.E))
         {
+            Debug.Log(light.enabled);
             light.enabled = !light.enabled;
         }
+
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (light.enabled && other.gameObject.CompareTag("Enemy"))
+        {
+            other.GetComponent<Enemy>().decrease_hp();
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (light.enabled && other.gameObject.CompareTag("Enemy"))
+        {
+            other.GetComponent<Enemy>().decrease_hp();
+        }
+    }
 }
